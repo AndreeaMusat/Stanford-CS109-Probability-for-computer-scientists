@@ -1,0 +1,106 @@
+\documentclass[12pt,a4paper,oneside,draft]{report}
+\usepackage[utf8]{inputenc}
+
+\title{CS109 assignment 1}
+\author{andreea.a.musat@gmail.com}
+\date{October 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\newcommand\myworries[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1.} A substitution cypher is derived from an ordering of the letters in the alphabet. How many ways can the 26 letters be ordered if each letter appears exactly once and:\\
+a. There are no other restrictions? \\
+b. The letters Q and U must be next to each other (but in any order)? \\
+
+\textbf{Solution:} \\
+
+a. There are 26! ways to permute the 26 letters of the alphabet. \\
+
+b. We can assume that U does not exist in the alphabet, as its position always depends on Q in order to get a valid arrangement. Thus, we have 25! ways in which we can arrange all letters except U. Now, we can place U either before or after Q in any of these, so we get a total of $2 * 25!$ ways.\\
+
+\textbf{2.} You are counting cards in a card game that uses four standard decks of cards. There are 208 cards total. Each deck has 52 cards (13 values each with 4 suits). Cards are only distinguishable based on their suit and value, not which deck they came from. \\
+a. In how many distinct ways can the cards be ordered? \\
+b. You are dealt two cards. How many distinct pairs of cards can you be dealt? Note: the order of the two cards you are dealt does not matter. \\
+c. You are dealt two cards. Cards with values 10, Jack, Queen, King and Ace are considered “good” cards. How many ways can you get two “good” cards? Order does not matter. \\
+
+\textbf{Solution:} \\
+
+a. We are trying to order 208 elements, knowing that there are 13 * 4 = 52 unique elements and that each elements appears 4 times, as there ar 4 decks. Thus, there are: $\frac{208!}{4! 4! ... 4!} = \frac{208!}{(4!)^{52}}$ ways of ordering them. \\
+
+b. Because we have more than one deck, it is possible to have a pair consisting of the same card. There are $52^2$ possible pairs of cards, but we count the pairs with 2 different elements twice ((1, 2) and (2, 1) for example). If we want to count all pairs twice, we have to add 52 to that number (the number of pairs having the same card), so we get: $\frac{52^2 + 52}{2} = 26 * 53$ total pairs. \\
+
+c. There are 5 card values * 4 suits * 4 decks = 80 good cards, so one could get a pair of 2 good cards in ${80 \choose 2}$ ways.
+
+\textbf{3. }In how many ways can n identical server requests (“identical balls”) be distributed among r servers (“urns”) so that the $i$th server receives at least $m_i$ requests, for each i = 1, 2, ..., r ?
+You can assume that $n \geq \sum_{i=1}^{r}m_i$. \\
+
+\textbf{Solution}\\
+
+We first distribute the minimum number of requests for each server, so that the constraint is satisfied: server i gets $m_i$ requests. Using the notation $m = \sum_{i=1}^{r}m_i$, we are left with $n - m$ requests to distribute on r servers, which can be done in 
+$n - m + r - 1 \choose r - 1$ ways, as the requests are assumed to be identical. \\
+
+\textbf{4.} Determine the number of vectors $(x_1 , x_2 , ..., x_n)$ such that each $x_i$ is a non-negative integer and $\sum_{i=1}^{n}x_i \leq k$ where k is some constant non-negative integer. Note that you can think of n (the size of the vector) as a constant that can be used in your answer. \\
+
+\textbf{Solution} \\ 
+
+We can split this problem into k + 1 more specific problems and solve each of them separately: \textit{Given a constant j, determine the number of vectors n-dimensional vectors such that each component is a non-negative integer and the sum of all the components is exactly j.} This problem is equivalent to distributing j balls across n urns (and allowing some of the urns to be empty), which can be done in $j + n - 1 \choose n - 1$ ways for each j. Now, because we are interested in vectors having the sum of their elements less than or equal to k, we get the total number of vectors: $\sum_{i=0}^{k} {j + n - 1 \choose n - 1}$ \\
+
+\textbf{5.} Imagine you have a robot (Q) that lives on an n x m grid (it has n rows and m columns). The robot starts in cell (1, 1) (lower left corner) and can take steps either to the right or up (no left or down steps). How many distinct paths can the robot take to the destination in cell (n, m) (upper right corner): \\
+a. If there are no additional constraints? \\
+b. The robot must start by moving to the right? \\
+c. If the robot changes direction exactly 3 times? As an example: moving up two times in a row is not changing directions but switching from moving up to moving right is. Moving [Up, Right, Right, Up] would count as having two direction switches. \\
+
+\newpage
+\textbf{Solution} \\
+
+a. Each path the robot can take can be encoded as a binary string of length n + m consisting of n 0s and m 1s, where 0 means the robot takes a step up and 1 means that the robot takes a step to the right.
+There are ${n + m \choose n} = {n + m \choose m}$ ways of choosing one such path. \\
+
+b. If the robot starts by moving to the right, then we restrict our binary strings to start with 1. Now we have to count the ways in which we can construct a binary string of length n + m - 1 that consists of n 0s and m-1 1s. There are $ {n + m - 1 \choose n} = {n + m - 1 \choose m - 1} $ such strings. \\
+
+c. If the robot changes direction 3 times, its possible paths would have the following form: 00...0 $\vert$ 11...1 $\vert$ 00...0 $\vert$ 11...1 (or starting with a block of ones instead of zeros; we can count these and then multiply the result by 2 to account for the ones starting with 1s), where the first block of zeros should have length between 1 and n - 1 inclusive and the first block of ones should have length between 1 and m - 1 inclusive (and the length of the other 2 blocks is dependent on these, so they can be chosen just in one way). There are 2 * (n - 1) * (m - 1) ways to build a path in which the robot changes direction 3 times. \\
+
+\textbf{6.} Given all the start-up activity going on in high-tech, you realize that applying combinatorics to investment strategies might be an interesting idea to pursue. Say you have \textdollar 20 million
+that must be invested among 4 possible companies. Each investment must be in integral
+units of \textdollar 1 million, and there are minimal investments that need to be made if one is to
+invest in these companies. The minimal investments are \textdollar1, \textdollar 2, \textdollar 3, and \textdollar 4 million dollars,
+respectively for company 1, 2, 3, and 4. How many different investment strategies are available if: \\
+a. an investment must be made in each company? \\
+b. investments must be made in at least 3 of the 4 companies? \\
+
+\textbf{Solution} \\
+
+a. We first invest the minimum required amount in each company (it can be done in 1 way, as all million dollars are equal :-) ), then distribute the rest of the money (\textdollar 10 million) between the 4 companies, which can be done in ${10 + 4 - 1 \choose 4 - 1} = {13 \choose 3 } = 286 $ ways. \\
+
+b. We will count the ways in which we can invest in exactly 3 companies and then add the result from the previous exercise to this number. Knowing that the minimum sum invested in company i is \textdollar i million dollars, investing in all companies except i requires a minimum investment of 10 - i million dollars (this is to satisfy the constraint; can be done in 1 way), which leaves us \textdollar 10 + i million to invest in 3 companies. This can be done in ${10 + i + 3 - 1 \choose 3 - 1} = {12 + i \choose 2}$ ways. Now, knowing that i can be any of these 4 companies, we get a total number of investing in exactly 3 companies: $\sum_{i = 1}^{4} {12 + i \choose 2}$, so the final result is: 286 + $\sum_{i = 1}^{4} {12 + i \choose 2}$. \\
+
+\myworries{TODO: exercises 7-12} \\
+
+\textbf{13.} Suppose that m strings are hashed (randomly) into N buckets, assuming that all $N^m$ arrangements are equally likely. Find the probability that exactly k strings are hashed to the first bucket. \\
+
+\textbf{Solution} \\
+There are $m \choose k$ ways to choose the k strings that will be hashed into the first bucket. After that, we are left with m - k strings to be hashed in N - 1 buckets, which can be done in $(N-1)^(m-k)$ ways, so the probability of having exactly k strings hashed to the first bucket is: $\frac{{m \choose k} {(N-1)^{m-k}} }{N^m}$ \\
+
+\textbf{14.} A computer generates two random integers in the range 1 to 12, inclusive, where each value in the range 1 to 12 is equally likely to be generated. What is the probability that the second randomly generated integer has a value that is greater than the first? \\
+
+\textbf{Solution} \\
+
+First, as each number is equally likely to be generated, $p(n) = \frac{1}{12}, \forall n \in \{1, 2, ..., 12\} $. We use the notation $p(I_2 > I_1)$ for the probability that the second generated integer is greater than the first one. We can write this as: \\
+\begin{center}
+$p(I_2 > I_1) = \sum_{i_1, i_2 \in \{1, 2, ..., 12\}, i_2 > i_1} p(i_1) p(i_2 \vert i_1) = \frac{1}{12} \sum_{i_1, i_2 \in \{1, 2, ..., 12\}, i_2 > i_1} p(i_2 \vert i_1)$,    
+\end{center} because the probability of each integer $i_1$ being generated is $\frac{1}{12}$.
+Now, the probability to generate a second integer greater than the first one $i_1$ is $\frac{12 - i_1}{12}$, so the final result is:\\
+\begin{center}
+$p(I_2 > I_1) = \frac{1}{12} \sum_{i_1, \in \{1, 2, ..., 12\}} \frac{12 - i_1}{12} =  \frac{1}{12^2} \sum_{i=1}^{i=11} i = 
+\frac{11 * 12}{2 * 12^2} = \frac{11}{24}$
+\end{center}
+
+\end{document}
+
